@@ -1,0 +1,17 @@
+name: Self-hosted runner smoke test
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: [self-hosted, Linux, X64, repo-justatest]
+    timeout-minutes: 5
+    steps:
+      - name: Host identity
+        run: test "$(id -un)" = github-runner
+      - name: Docker access
+        run: docker run --rm alpine:3.22 sh -c 'test "$(uname -s)" = Linux'
